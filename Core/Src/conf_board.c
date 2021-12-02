@@ -39,24 +39,26 @@
 /** Default configuration values for power analyzer */
 const tConfig_pa DefaultConfig_pa =
 {
-	.value = 0
+	.value = 0,
+	.voltCal = 0,
+	.curCal = 0
 };
 
 /** Default configuration values for thermocouple */
 const tConfig_tc DefaultConfig_tc =
 {
 	.ch_conf = {
-		{CR0_DEFAULT,CR1_DEFAULT,0},
-		{CR0_DEFAULT,CR1_DEFAULT,0},
-		{CR0_DEFAULT,CR1_DEFAULT,0},
-		{CR0_DEFAULT,CR1_DEFAULT,0},
+		{CR0_DEFAULT,CR1_DEFAULT,0,{0}},
+		{CR0_DEFAULT,CR1_DEFAULT,0,{0}},
+		{CR0_DEFAULT,CR1_DEFAULT,0,{0}},
+		{CR0_DEFAULT,CR1_DEFAULT,0,{0}},
 	},
 };
 
 const tBoardConfig DefaultConfig =
 {
 	.magic = {'R','O','T','A'},
-	.vers = 0x00000004,
+	.vers = 0x00000005,
 };
 /*============================================================================*/
 /* Module global data                                                         */

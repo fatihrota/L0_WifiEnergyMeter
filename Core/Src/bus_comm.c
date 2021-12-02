@@ -28,6 +28,8 @@
 /*============================================================================*/
 
 #define MAX_SPI_DATA 	512
+#define TC_CH_CONF_LENGTH	8
+#define PA_CONF_LENGTH	9
 
 /*============================================================================*/
 /* Type definitions                                                           */
@@ -121,6 +123,13 @@ uint32_t bus_cmd_ping_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *txData,ui
 
 uint32_t bus_cmd_tc_conf_read_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *txData,uint16_t *txLen)
 {
+	uint8_t *data = &txData[0];
+	for (int i=0;i<MAX_TC_CHANNELS;i++)
+	{
+		max31856_read_conf(i,data);
+		data+=TC_CH_CONF_LENGTH;
+	}
+	*txLen = MAX_TC_CHANNELS*TC_CH_CONF_LENGTH;
 	return 0;
 }
 
@@ -128,6 +137,25 @@ uint32_t bus_cmd_tc_conf_read_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *t
 
 uint32_t bus_cmd_tc_conf_write_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *txData,uint16_t *txLen)
 {
+	uint8_t *data = &txData[0];
+	for (int i=0;i<MAX_TC_CHANNELS;i++)
+	{
+		max31856_write_conf(i,data);
+
+		gBoardConfig.gConfig_tc.ch_conf[i].cr0 = data[0];
+		gBoardConfig.gConfig_tc.ch_conf[i].cr1 = data[1];
+		for (int j=0; j<4; j++)
+		{
+			gBoardConfig.gConfig_tc.ch_conf[i].cjOffset.cjOffBytes[j] = data[j+3];
+		}
+		gBoardConfig.gConfig_tc.ch_conf[i].cj_offset = gBoardConfig.gConfig_tc.ch_conf[i].cjOffset.cjOff / 0.0625;
+		data += TC_CH_CONF_LENGTH;
+	}
+
+	conf_save();
+
+
+	*txLen = 0;
 	return 0;
 }
 
@@ -135,6 +163,17 @@ uint32_t bus_cmd_tc_conf_write_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *
 
 uint32_t bus_cmd_pa_conf_read_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *txData,uint16_t *txLen)
 {
+	uint8_t *data = &txData[0];
+	data[0] = gBoardConfig.gConfig_pa.value;
+	for (int i=0; i<4; i++)
+	{
+		data[i+1] = gBoardConfig.gConfig_pa.voltCal.voltBytes[i];
+	}
+	for (int j=0; j<4; j++)
+	{
+		data[j+5] = gBoardConfig.gConfig_pa.curCal.curBytes[j];
+	}
+	*txLen = PA_CONF_LENGTH;
 	return 0;
 }
 
@@ -142,6 +181,18 @@ uint32_t bus_cmd_pa_conf_read_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *t
 
 uint32_t bus_cmd_pa_conf_write_handler (uint8_t *rxData,uint16_t rxLen,uint8_t *txData,uint16_t *txLen)
 {
+	uint8_t *data = &txData[0];
+	gBoardConfig.gConfig_pa.value = data[0];
+	for (int i=0; i<4; i++)
+	{
+		gBoardConfig.gConfig_pa.voltCal.voltBytes[i] = data[i+1];
+	}
+	for (int j=0; j<4; j++)
+	{
+		gBoardConfig.gConfig_pa.curCal.curBytes[j] = data[j+5];
+	}
+
+	conf_save();
 	return 0;
 }
 

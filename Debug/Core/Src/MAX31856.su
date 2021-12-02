@@ -11,4 +11,4 @@ MAX31856.c:236:6:sampleExtCj	32	static
 MAX31856.c:281:6:max31856_nonmuxed_sample	56	static
 MAX31856.c:366:5:max31856_init	32	static
 MAX31856.c:389:6:tc_init	40	static
-MAX31856.c:448:6:max31856_process	8	static
+MAX31856.c:448:6:max31856_process	16	static

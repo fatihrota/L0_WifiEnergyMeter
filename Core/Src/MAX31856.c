@@ -184,17 +184,17 @@ void max31856_read_conf(uint32_t ch, uint8_t *data)
 	max31856_rd_reg(&tc[ch],MAX31856_CR0,&data[0],2);
 	max31856_rd_reg(&tc[ch],MAX31856_CJTO,&data[2],1);
 
-	data[2] = extColdJOffset[ch] / 0.0625;
+	memcpy(&data[3], &extColdJOffset[ch], 4);
 
 }
 
 /*****************************************************************************/
 void max31856_write_conf(uint32_t ch, uint8_t *data)
 {
+	memcpy(&extColdJOffset[ch], &data[3], 4);
 	max31856_wr_reg(&tc[ch],MAX31856_CR0,&data[0],2);
+	data[2] = extColdJOffset[ch] / 0.0625;
 	max31856_wr_reg(&tc[ch],MAX31856_CJTO,&data[2],1);
-
-	extColdJOffset[ch] = data[2] * 0.0625;
 }
 
 /*****************************************************************************/
@@ -336,7 +336,7 @@ void max31856_nonmuxed_sample()
 		//}
 
 #ifdef RTDEBUG
-		dbg_printf("ch[%d]: %f -- %d \n",ch, tempf, tempData[ch][5]);
+		dbg_printf("ch[%d]: %d -- %d \n",ch, tempf, tempData[ch][5]);
 #endif
 		/** Copy sensor value to global buffer */
 		memcpy(&gMAX31856_buffer[ch*MAX31856_READ_SIZE],&tempData[ch],MAX31856_READ_SIZE);
@@ -447,7 +447,8 @@ void tc_init(int extcj)
 /*****************************************************************************/
 void max31856_process()
 {
-	max31856_nonmuxed_sample();
+	for (int i=0; i<MAX_TC_CHANNELS; i++)
+		max31856_nonmuxed_sample();
 }
 
 /**@}*/

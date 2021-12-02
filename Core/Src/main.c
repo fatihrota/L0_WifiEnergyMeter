@@ -162,8 +162,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  //dbg_printf("Test\r\n");
-	  //HAL_Delay(1000);
+	  /*dbg_printf("Test\r\n");
+	  HAL_Delay(1000);*/
 	  stpm_Process();
 	  max31856_process();
 	  bus_comm_process();
