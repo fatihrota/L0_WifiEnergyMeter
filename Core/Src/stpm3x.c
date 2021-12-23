@@ -76,7 +76,7 @@ unsigned char stpm_txBuffer[STPM3x_SAMPLE_SIZE];
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	dbg_printf("RX ALL\r\n");
+	dbg_printf("RX STPM3x ALL\r\n");
 	memcpy(&stpm_rxBuffer[0],&rxDMABuffer[10],STPM3x_SAMPLE_SIZE);
 }
 
@@ -102,8 +102,6 @@ void stpmReset(void)
 /*****************************************************************************/
 void stpm_init(void)
 {
-
-
 
 	for (int i=0;i<STPM3x_SAMPLE_SIZE;i++)
 		stpm_rxBuffer[i] = 0;

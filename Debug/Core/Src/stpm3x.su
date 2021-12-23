@@ -2,4 +2,4 @@ stpm3x.c:77:6:HAL_UART_RxCpltCallback	16	static
 stpm3x.c:83:5:stmp3x_read_raw_buffered	16	static
 stpm3x.c:91:6:stpmReset	8	static
 stpm3x.c:103:6:stpm_init	16	static
-stpm3x.c:145:6:stpm_Process	64	static
+stpm3x.c:135:6:stpm_Process	64	static

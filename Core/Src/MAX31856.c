@@ -336,7 +336,7 @@ void max31856_nonmuxed_sample()
 		//}
 
 #ifdef RTDEBUG
-		dbg_printf("ch[%d]: %d -- %d \n",ch, tempf, tempData[ch][5]);
+		dbg_printf("ch[%d]: %f -- %x \n",ch, tempf, tempData[ch][5]);
 #endif
 		/** Copy sensor value to global buffer */
 		memcpy(&gMAX31856_buffer[ch*MAX31856_READ_SIZE],&tempData[ch],MAX31856_READ_SIZE);
@@ -388,7 +388,6 @@ int max31856_init(tMAX31856 *ch,uint8_t cr0,uint8_t cr1)
 /*****************************************************************************/
 void tc_init(int extcj)
 {
-	memcpy(&gBoardConfig.gConfig_tc, &DefaultConfig_tc, sizeof(tConfig_tc));
 	dbg_printf("Init TCs\n");
 	if (extcj < 0)
 	{
@@ -402,7 +401,7 @@ void tc_init(int extcj)
 		/** Not a muxed one but has external CJ Sensors */
 		for (int i=0;i<MAX_TC_CHANNELS;i++)
 		{
-			extColdJOffset[i] = gBoardConfig.gConfig_tc.ch_conf[i].cj_offset * 0.0625;
+			extColdJOffset[i] = gBoardConfig.gConfig_tc.ch_conf[i].cjOffset.cjOff;
 		}
 
 	}
