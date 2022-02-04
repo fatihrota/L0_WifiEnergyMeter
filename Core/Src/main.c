@@ -145,6 +145,7 @@ int main(void)
   conf_init();
   stpm_init();
 
+  dbg_printf("STM32 Application Firmware Initialization\r\n");
   int extcjr = EXTCJ_init();
   dbg_printf("extcj : %d\r\n", extcjr);
   tc_init(extcjr);

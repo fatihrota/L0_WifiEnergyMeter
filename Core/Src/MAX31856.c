@@ -243,7 +243,7 @@ void sampleExtCj(int ch, int mux_ch)
 
 		if (EXTCJ_ReadTemperature(&extTemp) == 0)
 		{
-			if (fabs(extTempf[ch] - extTemp) > 0.3)
+			if (fabs(extTempf[ch] - extTemp) > 0.1)
 				extTempf[ch] = extTemp;
 			else
 				extTempf[ch] = extTempf[ch] * 0.99 +  extTemp *0.01;
@@ -322,7 +322,7 @@ void max31856_nonmuxed_sample()
 				tempSkip[ch] = tempf;
 			}
 			/** Filter data for rapid changes */
-			if (fabs(filterData[ch]-tempf) > 0.3f)
+			if (fabs(filterData[ch]-tempf) > 0.1f)
 				filterData[ch] = tempf;
 			else
 				filterData[ch] = filterData[ch]*0.998f + ((double)tempf)*0.002f;

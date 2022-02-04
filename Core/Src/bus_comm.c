@@ -30,7 +30,7 @@
 #define MAX_SPI_DATA 	512
 #define TC_CH_CONF_LENGTH	8
 #define PA_CONF_LENGTH	9
-#define BOARD_TYPE_WEM	99
+#define BOARD_TYPE_WEM	100
 
 /*============================================================================*/
 /* Type definitions                                                           */
