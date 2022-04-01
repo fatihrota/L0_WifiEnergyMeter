@@ -36,7 +36,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-#define APPLICATION_VERS	"1.0.1"
+#define APPLICATION_VERS	101
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
